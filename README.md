@@ -1,6 +1,4 @@
 # Titan
 
-开发规范
-
-培养计划
+Great CDN 内部文档
 
