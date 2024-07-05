@@ -28,4 +28,4 @@ do
   sed "s#^#      #g" ${file} >> charts/values.yaml
 done
 
-helm cm-push charts cdn-test
+helm cm-push charts ${RepoPath##*/}
