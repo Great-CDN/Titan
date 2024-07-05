@@ -2,16 +2,15 @@
 
 COMMIT_ID=${GIT_COMMIT:0:8}
 
-#push_registry=192.168.1.135:8888/cdn-test
+app= #"cds"
+version= #"5.1.2-c17acb01"
+push_registry= #"192.168.1.135:8888/cdn-test"
 
-app=""
-version=
-
-AppPath="/cdn/${app}"
-ServicePort=
+AppPath= #"/cdn/${app}"
+ServicePort= #"80"
 RepoAddr="${push_registry%/*}"
 RepoPath="/${push_registry#*/}"
-ChartVersion="${version%-*}+${COMMIT_ID}"
+ChartVersion= #"$(date +"%Y%m%d%H%M%S")-${version%-*}+${COMMIT_ID}"
 
 sed -i "s#%App%#${app}#g"  charts/*.yaml
 sed -i "s#%ChartVersion%#${ChartVersion}#g"  charts/Chart.yaml
