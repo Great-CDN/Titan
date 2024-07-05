@@ -1,0 +1,33 @@
+# OpenResty Container File
+
+FROM registry.access.redhat.com/ubi9/ubi:latest
+
+ARG SOLUTION=cdn
+ARG APP=app
+ARG VERSION=version
+
+WORKDIR /$SOLUTION/$APP
+
+COPY ["$APP-$VERSION", "."]
+
+LABEL \
+  solution=$SOLUTION \
+  app=$APP \
+  name=$APP \
+  version=$VERSION \
+  description= \
+  io.k8s.display-name=$APP \
+  io.k8s.description= \
+  vendor= \
+  maintainer=
+
+RUN echo "alias ll='ls -l --color=auto'">>~/.bashrc && \
+  echo "alias tailf='tail -f'">>~/.bashrc && \
+  echo "yum install -y diffutils file gcc gcc-c++ bzip2 xz vim wget gdb strace libbabeltrace numactl-libs && rpm -i https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/Packages/l/libtraceevent-1.5.3-3.el9.x86_64.rpm && rpm -i https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/Packages/s/slang-2.3.2-11.el9.x86_64.rpm && rpm -i https://dl.rockylinux.org/pub/rocky/9/AppStream/x86_64/os/Packages/p/perf-5.14.0-427.22.1.el9_4.x86_64.rpm">/devtoolset.sh && \
+  echo "/$SOLUTION/$APP/$APP -c /$SOLUTION/$APP/conf/nginx.conf -g \"daemon off;\"">/start.sh
+
+CMD sh /start.sh
+
+# APP=...
+# VERSION=...
+# buildah build --build-arg SOLUTION=cdn APP=${APP} VERSION=${VERSION} -f [this_container_file] -t ${APP}:${VERSION}

@@ -1,0 +1,26 @@
+# Build Core Docker File
+
+FROM registry.access.redhat.com/ubi9-init:latest
+
+ARG SOLUTION=solution
+ARG APP=app
+ARG VERSION=version
+
+RUN yum install -y patch diffutils file gcc gcc-c++ m4 cmake3 bzip2 xz glibc-static libstdc++-static bzip2-devel xz-devel liburing-devel pcre-devel zlib-devel openssl-devel perl meson vim wget && \
+    rpm -i https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/linux/nasm-2.15.05-0.fc31.x86_64.rpm && \
+	rpm -i https://dl.rockylinux.org/pub/rocky/9/CRB/x86_64/os/Packages/z/zlib-static-1.2.11-40.el9.x86_64.rpm && \
+	rpm -i https://dl.rockylinux.org/pub/rocky/9/CRB/x86_64/os/Packages/p/pcre-static-8.44-3.el9.3.x86_64.rpm && \
+	echo "alias ll='ls -l --color=auto'">>~/.bashrc && \
+	python3 -m ensurepip && \
+	python3 -m pip install pyinstaller
+
+LABEL \
+  solution=$SOLUTION \
+  app=$APP \
+  name=$APP \
+  version=$VERSION \
+  description= \
+  io.k8s.display-name=$APP \
+  io.k8s.description= \
+  vendor= \
+  maintainer=
