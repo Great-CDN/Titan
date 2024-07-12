@@ -10,7 +10,7 @@ AppPath= #"/cdn/${app}"
 ServicePort= #"80"
 RepoAddr="${push_registry%/*}"
 RepoPath="/${push_registry#*/}"
-ChartVersion= #"$(date +"%Y%m%d%H%M%S")-${version%-*}+${COMMIT_ID}"
+ChartVersion= #"$(date +"%Y%m%d%H%M%S")-${version%-*}.${COMMIT_ID}"
 
 sed -i "s#%App%#${app}#g"  charts/*.yaml
 sed -i "s#%ChartVersion%#${ChartVersion}#g"  charts/Chart.yaml
