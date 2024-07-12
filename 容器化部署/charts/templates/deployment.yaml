@@ -30,7 +30,7 @@ spec:
       annotations:
         configmap-hash: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -41,22 +41,25 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image.host }}{{ .Chart.Annotations.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.service.internalPort }}
               protocol: TCP
           livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
+              httpGet:
+                path: {{ .Values.service.probeUri }}
+                port: {{ .Values.service.internalPort }}
           readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+                path: {{ .Values.service.probeUri }}
+                port: {{ .Values.service.internalPort }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}          
           volumeMounts:
             {{- range .Values.config }}
               - name: conf-volume
-                mountPath: {{ $.Values.service.path }}/conf/{{ .file }}
+                mountPath: {{ $.Chart.Annotations.path }}/conf/{{ .file }}
                 subPath: {{ .file }}
             {{- end }}
             {{- with .Values.volumeMounts }}
