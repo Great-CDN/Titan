@@ -17,10 +17,4 @@ resources:
   requests:
     cpu: 4000m
     memory: 2000Mi
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
