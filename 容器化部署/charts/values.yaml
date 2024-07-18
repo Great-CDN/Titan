@@ -10,11 +10,4 @@ service:
   probeUri: "/heartbeat"
 
 replicaCount: 1
-resources:
-  limits:
-    cpu: 4000m
-    memory: 2000Mi
-  requests:
-    cpu: 900m
-    memory: 500Mi
-
+resources: {}
