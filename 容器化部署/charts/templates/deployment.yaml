@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -34,7 +32,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -52,6 +49,7 @@ spec:
                 path: {{ .Values.service.probeUri }}
                 port: {{ .Values.service.internalPort }}
           readinessProbe:
+              httpGet:
                 path: {{ .Values.service.probeUri }}
                 port: {{ .Values.service.internalPort }}
           resources:
