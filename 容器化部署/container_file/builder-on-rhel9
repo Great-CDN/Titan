@@ -1,4 +1,4 @@
-# Build Core Docker File
+# Builder Container File
 
 FROM registry.access.redhat.com/ubi9-init:latest
 

@@ -1,0 +1,27 @@
+# Builder Container File
+
+FROM ubuntu:22.04
+
+ARG SOLUTION=solution
+ARG APP=app
+ARG VERSION=version
+
+RUN apt update && \
+	apt install -y software-properties-common build-essential && \
+    apt install -y patch diffutils file gawk gcc g++ gcc-multilib pkg-config cmake bzip2 xzip libbz2-dev liblzma-dev liburing-dev libpcre2-dev openssl perl meson vim curl wget pip alien && \
+	curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/linux/nasm-2.15.05-0.fc31.x86_64.rpm && alien nasm-2.15.05-0.fc31.x86_64.rpm && dpkg -i nasm_2.15.05-1_amd64.deb && rm -f nasm* && \
+	ln -s /usr/bin/cmake /usr/bin/cmake3 && \
+	pip install pyinstaller
+
+LABEL \
+  solution=$SOLUTION \
+  app=$APP \
+  name=$APP \
+  version=$VERSION \
+  description= \
+  io.k8s.display-name=$APP \
+  io.k8s.description= \
+  vendor= \
+  maintainer=
+
+CMD ["/sbin/init"]
