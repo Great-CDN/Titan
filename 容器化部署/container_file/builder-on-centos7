@@ -11,7 +11,7 @@ RUN yum install -y centos-release-scl epel-release && \
     yum install -y patch file gcc gcc-c++ cmake devtoolset-7-all devtoolset-11 m4 cmake3 bzip2 glibc-static libstdc++-static bzip2-devel xz-devel zlib-devel pcre-static zlib-static openssl-static glibc-static perl meson vim python3 upx && \
     rpm -i https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/linux/nasm-2.14.02-0.fc27.x86_64.rpm && \
 	pip3 install wheel && \
-	pip3 install pyinstaller
+	pip3 install pyinstaller markupsafe==2.0.1 httprunner==2.5.7
 
 LABEL \
   solution=$SOLUTION \
