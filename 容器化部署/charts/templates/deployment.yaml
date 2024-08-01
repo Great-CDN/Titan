@@ -18,7 +18,6 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "false"
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -49,12 +48,10 @@ spec:
               httpGet:
                 path: {{ .Values.service.probeUri }}
                 port: {{ .Values.service.internalPort }}
-              initialDelaySeconds: 10
           readinessProbe:
               httpGet:
                 path: {{ .Values.service.probeUri }}
                 port: {{ .Values.service.internalPort }}
-              initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}          
           volumeMounts:

@@ -9,5 +9,9 @@ service:
   internalPort: %ServicePort%
   probeUri: "/heartbeat"
 
+podAnnotations:
+  proxy.istio.io/config: |
+    holdApplicationUntilProxyStarts: true
+
 replicaCount: 1
 resources: {}
