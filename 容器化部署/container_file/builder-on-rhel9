@@ -11,8 +11,9 @@ RUN yum install -y patch diffutils file gcc gcc-c++ m4 cmake3 bzip2 xz glibc-sta
 	rpm -i https://dl.rockylinux.org/pub/rocky/9/CRB/x86_64/os/Packages/z/zlib-static-1.2.11-40.el9.x86_64.rpm && \
 	rpm -i https://dl.rockylinux.org/pub/rocky/9/CRB/x86_64/os/Packages/p/pcre-static-8.44-3.el9.3.x86_64.rpm && \
 	echo "alias ll='ls -l --color=auto'">>~/.bashrc && \
+	echo "alias tailf='tail -f'">>~/.bashrc && \
 	python3 -m ensurepip && \
-	python3 -m pip install pyinstaller markupsafe==2.0.1 httprunner==2.5.7
+	python3 -m pip install virtualenv pyinstaller markupsafe==2.0.1 httprunner==2.5.7
 
 LABEL \
   solution=$SOLUTION \
